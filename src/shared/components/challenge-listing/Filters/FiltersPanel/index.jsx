@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint jsx-a11y/no-static-element-interactions:0 */
 /* global window */
 
@@ -32,7 +33,12 @@ import Tooltip from 'components/Tooltip';
 import { config, Link } from 'topcoder-react-utils';
 import { COMPOSE, PRIORITY } from 'react-css-super-themr';
 import { REVIEW_OPPORTUNITY_TYPES } from 'utils/tc';
-import { isFilterEmpty, isPastBucket } from 'utils/challenge-listing/buckets';
+import {
+  isFilterEmpty,
+  isPastBucket,
+  BUCKET_DATA,
+  BUCKETS,
+} from 'utils/challenge-listing/buckets';
 import SwitchWithLabel from 'components/SwitchWithLabel';
 import { challenge as challengeUtils } from 'topcoder-react-lib';
 import { createStaticRanges } from 'utils/challenge-listing/date-range';
@@ -64,6 +70,7 @@ export default function FiltersPanel({
   // isSavingFilter,
   expanded,
   setExpanded,
+  setSort,
 }) {
   if (hidden && !expanded) {
     return (
@@ -428,7 +435,12 @@ export default function FiltersPanel({
                             checked={filterState.types.includes(option.value)}
                             onChange={(e) => {
                               let { types } = filterState;
+                              const isRecommended = types.indexOf('Recommended') >= 0;
+                              types = types.filter(type => type !== 'Recommended');
 
+                              if (isRecommended && activeBucket === BUCKETS.OPEN_FOR_REGISTRATION) {
+                                setSort(activeBucket, BUCKET_DATA[activeBucket].sorts2[1]);
+                              }
                               if (e.target.checked) {
                                 types = types.concat(option.value);
                               } else {
@@ -442,6 +454,45 @@ export default function FiltersPanel({
                         </span>
                       ))
                   }
+                </div>
+
+                <div styleName="checkboxes">
+                  <Tooltip
+                    position="right"
+                    trigger={['hover']}
+                    content={(
+                      <div style={{ padding: '15px', fontSize: '13px', borderRadius: '5px' }}>
+                        Shows available challenges that match your skills
+                      </div>
+                    )}
+                  >
+                    <span styleName="checkbox">
+                      <input
+                        type="checkbox"
+                        styleName="input-control"
+                        name="Recommended"
+                        id="Recommended"
+                        checked={(filterState.types || []).includes('Recommended')}
+                        onChange={(e) => {
+                          let types = ['Recommended'];
+                          if (e.target.checked) {
+                            types = ['Recommended'];
+                            if (activeBucket === BUCKETS.OPEN_FOR_REGISTRATION) {
+                              setSort(activeBucket, BUCKET_DATA[activeBucket].sorts2[0]);
+                            }
+                          } else {
+                            types = [];
+                            if (activeBucket === BUCKETS.OPEN_FOR_REGISTRATION) {
+                              setSort(activeBucket, BUCKET_DATA[activeBucket].sorts2[1]);
+                            }
+                          }
+
+                          setFilterState({ ..._.clone(filterState), types });
+                        }}
+                      />
+                      <label styleName="checkbox-label" htmlFor="Recommended">Recommended</label>
+                    </span>
+                  </Tooltip>
                 </div>
               </div>
             </div>
@@ -607,6 +658,7 @@ FiltersPanel.propTypes = {
   // selectedCommunityId: PT.string.isRequired,
   setFilterState: PT.func.isRequired,
   setSearchText: PT.func.isRequired,
+  setSort: PT.func.isRequired,
   // validKeywords: PT.arrayOf(PT.string).isRequired,
   validTypes: PT.arrayOf(PT.shape()).isRequired,
   onClose: PT.func,

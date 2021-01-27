@@ -47,6 +47,7 @@ export default function BucketSelector({
       : activeBucket === bucket;
     return (
       <Bucket
+        auth={{ tokenV3: isAuth }}
         active={!disabled && isActive}
         bucket={bucket}
         // challenges={challenges}

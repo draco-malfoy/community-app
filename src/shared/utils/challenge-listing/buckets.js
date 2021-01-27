@@ -66,6 +66,11 @@ export const BUCKET_DATA = {
       // SORTS.PRIZE_HIGH_TO_LOW,
       SORTS.TITLE_A_TO_Z,
     ],
+    sorts2: [
+      SORTS.BEST_MATCH,
+      SORTS.MOST_RECENT_START_DATE,
+      SORTS.TITLE_A_TO_Z,
+    ],
   },
   [BUCKETS.ONGOING]: {
     // filter: {

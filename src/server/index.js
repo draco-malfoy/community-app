@@ -119,6 +119,7 @@ async function onExpressJsSetup(server) {
    * atob() method, which is present in browser, but not in NodeJS. This is the
    * fix. */
   global.atob = atob;
+  global.window = {};
 
   const checkAuthorizationHeader = (req, res, next) => {
     if (req.headers.authorization !== `ApiKey ${config.SERVER_API_KEY}`) {

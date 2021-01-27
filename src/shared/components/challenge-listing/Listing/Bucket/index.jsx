@@ -50,6 +50,7 @@ export default function Bucket({
   // searchTimestamp,
   isLoggedIn,
   setSearchText,
+  auth,
 }) {
   const refs = useRef([]);
   refs.current = [];
@@ -114,6 +115,29 @@ export default function Bucket({
   // }
 
   if (!loading && sortedChallenges.length === 0) {
+    const types = _.get(filterState, 'types', []);
+    const isRecommended = types.indexOf('Recommended') >= 0;
+    if (bucket === BUCKETS.OPEN_FOR_REGISTRATION && isRecommended) {
+      if (!auth || !auth.tokenV3) {
+        return (
+          <div styleName="no-results">
+            There are no recommended challenges for you. This could be because
+            you are not logged in and/or the recommendation tool will only
+            recommend challenges that match your skills once you successfully
+            place in a challenge. Try exploring other challenges or checking
+            back later.
+          </div>
+        );
+      }
+
+      return (
+        <div styleName="no-results">
+          There are no challenges open for registration at the moment that match
+          your skills. Try exploring other challenges or checking back later.
+        </div>
+      );
+    }
+
     return (
       <div styleName="no-results">
         { `${NO_LIVE_CHALLENGES_CONFIG[bucket]}` }
@@ -163,6 +187,13 @@ export default function Bucket({
   //   loadMore();
   // }
 
+  const types = _.get(filterState, 'types', []);
+  const isRecommended = types.indexOf('Recommended') >= 0;
+  let bucketSorts = BUCKET_DATA[bucket].sorts;
+  if (bucket === BUCKETS.OPEN_FOR_REGISTRATION && isRecommended) {
+    bucketSorts = BUCKET_DATA[bucket].sorts2;
+  }
+
   return (
     // challenges.length !== 0
     // && (
@@ -170,7 +201,7 @@ export default function Bucket({
       <SortingSelectBar
         onSelect={setSort}
         options={
-          BUCKET_DATA[bucket].sorts.map(item => ({
+          bucketSorts.map(item => ({
             label: Sort[item].name,
             value: item,
           }))
@@ -228,6 +259,7 @@ Bucket.defaultProps = {
   expandTag: null,
   activeBucket: '',
   expanding: false,
+  auth: {},
   // searchTimestamp: 0,
 };
 
@@ -259,4 +291,5 @@ Bucket.propTypes = {
   // searchTimestamp: PT.number,
   isLoggedIn: PT.bool.isRequired,
   setSearchText: PT.func.isRequired,
+  auth: PT.any,
 };

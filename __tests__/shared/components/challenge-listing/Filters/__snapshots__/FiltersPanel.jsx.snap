@@ -142,6 +142,57 @@ exports[`Matches shallow shapshot 2`] = `
         <div
           className="src-shared-components-challenge-listing-Filters-FiltersPanel-___style__checkboxes___3ukXp"
         />
+        <div
+          className="src-shared-components-challenge-listing-Filters-FiltersPanel-___style__checkboxes___3ukXp"
+        >
+          <Tooltip
+            align={Object {}}
+            className=""
+            content={
+              <div
+                style={
+                  Object {
+                    "borderRadius": "5px",
+                    "fontSize": "13px",
+                    "padding": "15px",
+                  }
+                }
+              >
+                Shows available challenges that match your skills
+              </div>
+            }
+            defaultVisible={false}
+            id=""
+            onTooltipHover={[Function]}
+            placeArrow={[Function]}
+            position="right"
+            suppressDiv={false}
+            trigger={
+              Array [
+                "hover",
+              ]
+            }
+          >
+            <span
+              className="src-shared-components-challenge-listing-Filters-FiltersPanel-___style__checkbox___3SjsV"
+            >
+              <input
+                checked={false}
+                className="src-shared-components-challenge-listing-Filters-FiltersPanel-___style__input-control___3erxH"
+                id="Recommended"
+                name="Recommended"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <label
+                className="src-shared-components-challenge-listing-Filters-FiltersPanel-___style__checkbox-label___29NI7"
+                htmlFor="Recommended"
+              >
+                Recommended
+              </label>
+            </span>
+          </Tooltip>
+        </div>
       </div>
     </div>
     <div

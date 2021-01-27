@@ -22,6 +22,7 @@ exports[`Matches shallow shapshot 1 shapshot 1 1`] = `
         hidden={true}
         isAuth={false}
         setFilterState={[MockFunction]}
+        setSort={[MockFunction]}
       />
     </div>
     <Connect(Listing)
@@ -78,6 +79,7 @@ exports[`Matches shallow shapshot 2 shapshot 2 1`] = `
         hidden={false}
         isAuth={false}
         setFilterState={[MockFunction]}
+        setSort={[MockFunction]}
       />
     </div>
     <Connect(Listing)

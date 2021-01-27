@@ -5,7 +5,7 @@ import _ from 'lodash';
 import PT from 'prop-types';
 import React from 'react';
 import Sort from 'utils/challenge-listing/sort';
-import { BUCKET_DATA } from 'utils/challenge-listing/buckets';
+import { BUCKET_DATA, BUCKETS } from 'utils/challenge-listing/buckets';
 import SortingSelectBar from 'components/SortingSelectBar';
 import Waypoint from 'react-waypoint';
 import { challenge as challengeUtils } from 'topcoder-react-lib';
@@ -37,7 +37,18 @@ export default function ReviewOpportunityBucket({
 }) {
   if (!opportunities.length && !loadMore) return null;
 
-  const activeSort = sort || BUCKET_DATA[bucket].sorts[0];
+  const types = _.get(filterState, 'types', []);
+  let bucketSorts = BUCKET_DATA[bucket].sorts;
+  const isRecommended = types.indexOf('Recommended') >= 0;
+  if (bucket === BUCKETS.OPEN_FOR_REGISTRATION && isRecommended) {
+    bucketSorts = BUCKET_DATA[bucket].sorts2;
+  }
+
+  let activeSort = sort || bucketSorts[0];
+  if (bucketSorts.length && bucketSorts.indexOf(sort) < 0) {
+    // eslint-disable-next-line prefer-destructuring
+    activeSort = bucketSorts[0];
+  }
 
   const sortedOpportunities = _.clone(opportunities);
   sortedOpportunities.sort(Sort[activeSort].func);

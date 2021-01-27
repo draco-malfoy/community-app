@@ -167,6 +167,7 @@ function Listing({
           <Bucket
             // bucket={buckets[bucket]}
             bucket={bucket}
+            auth={auth}
             // bucketId={bucket}
             challenges={bucketChallenges}
             challengeTypes={challengeTypes}

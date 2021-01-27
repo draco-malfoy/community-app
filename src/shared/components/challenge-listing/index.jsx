@@ -170,6 +170,7 @@ export default function ChallengeListing(props) {
             hideSrm={hideSrm}
             isAuth={Boolean(auth.user)}
             setFilterState={props.setFilterState}
+            setSort={props.setSort}
             hidden={!desktop}
           />
         </div>

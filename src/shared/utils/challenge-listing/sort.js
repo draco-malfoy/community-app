@@ -9,6 +9,7 @@ import { sumBy } from 'lodash';
 export const SORTS = {
   // CURRENT_PHASE: 'current-phase',
   MOST_RECENT: 'updated',
+  BEST_MATCH: 'best-match',
   MOST_RECENT_START_DATE: 'startDate',
   // NUM_REGISTRANTS: 'num-registrants',
   // NUM_SUBMISSIONS: 'num-submissions',
@@ -26,6 +27,10 @@ export default {
   //   func: (a, b) => a.status.localeCompare(b.status),
   //   name: 'Current phase',
   // },
+  [SORTS.BEST_MATCH]: {
+    name: 'Best match',
+    order: 'desc',
+  },
   [SORTS.MOST_RECENT]: {
     // func: (a, b) => moment(b.registrationStartDate).diff(a.registrationStartDate),
     name: 'Most recent',
